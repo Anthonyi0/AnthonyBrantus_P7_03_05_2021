@@ -8,6 +8,7 @@ exports.signup = (request, response, next) => {
     .then(hash => {              
       const user = new User({
         email: request.body.email,
+        username:request.body.username,
         password: hash
       })
       user.save()                    
