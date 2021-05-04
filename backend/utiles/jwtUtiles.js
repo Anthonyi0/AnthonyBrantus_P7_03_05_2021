@@ -1,14 +1,12 @@
 /*Gestion de jwt*/
-
-//import
-let jwt = require('jsonwebtoken')
+let jwt = require('jsonwebtoken')//importation
 
 module.exports = {
   tokenSign : 'DEVELOPMENT_TOKEN_SECRET',
   generateToken: function (user) {
     return jwt.sign({
       userId: user.id,
-      isAdmin: user.isAdmin
+      is_admin: user.is_admin
     },
       this.tokenSign,
       {
@@ -23,8 +21,8 @@ module.exports = {
         userId = decodedToken.userId
         return userId
       }
-      catch (err) {
-        return err
+      catch (error) {
+        return error
       }
     };
   }

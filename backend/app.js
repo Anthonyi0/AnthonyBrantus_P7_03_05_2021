@@ -5,9 +5,11 @@ const app = express();
 const bodyParser = require('body-parser');//Rend les données du corps de la requête exploitable
 const path = require('path');
 const userRoutes = require('./routes/user');
+//const messageRoutes = require('./routes/message')
 const helmet = require('helmet')//aide à sécuriser les appli Express
 require('dotenv').config()//Cache les infos sensible dans le dossier ".env"
 
+//connection base de donnée
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 try {
   sequelize.authenticate();
@@ -26,9 +28,13 @@ app.use((request, response, next) => {
 });
 
 
-app.use(helmet())//securisation HTTP headers
 app.use(bodyParser.json());
-app.use('/images',express.static(path.join(__dirname,'images')));
-app.use('/auth', userRoutes);
+app.use(helmet())//securisation HTTP headers
+
+app.use('/images',express.static(path.join(__dirname,'images')));//middleware images
+
+//Routes
+app.use('/api/user', userRoutes);
+//app.use('/api/message', messageRoutes);
 
 module.exports = app;
