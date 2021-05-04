@@ -1,19 +1,25 @@
-// importation des plugins
+// Imports
 const jwt = require('jsonwebtoken');
+// Exportation de la fonction d'authentification
+module.exports = (request, response, next) => {
+    // Récupération du token dans les paramètres
+    const authHeader = request.headers.authorization;
 
-module.exports = async (request, response, next) => {
-  try {
-    const token = request.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token,process.env.TOKEN);
-    const userId = decodedToken.userId;
-    if (request.body.userId && request.body.userId !== userId) {
-      throw 'Invalid user ID';
-    } else {
-      next();
+    // Si l'utilisateur possède une autorisation,
+    // on déclare le token et on le vérifie, s'il n'y a pas
+    // d'erreur, on le next, sinon on renvoie un statut 403
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+
+        jwt.verify(token, 'DEVELOPMENT_TOKEN_SECRET', (error, user) => {
+            if (error) {
+                return response.status(403);
+            }
+            next();
+        });
     }
-  } catch {
-    response.status(401).json({
-      error: new Error('Invalid request!')
-    });
-  }
+    // Sinon, on renvoie le statut 401 Unauthorized
+    else {
+        response.status(401).json({error:"accès non authorisé"});
+    }
 };

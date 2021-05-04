@@ -1,43 +1,84 @@
-// importation des plugins
-const bcrypt = require('bcrypt');//plugins de cryptage
-const jwt = require('jsonwebtoken'); 
-const User = require('../models/User'); // récupération du model
+//Import
+let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
+let models = require('../models');
+let jwtUtiles = require('../utiles/jwtUtiles');
+let verifInput = require('../utiles/verifInput')
 
-exports.signup = (request, response, next) => {
-  bcrypt.hash(request.body.password, 10) // hashage *10 du password
-    .then(hash => {              
-      const user = new User({
-        email: request.body.email,
-        username:request.body.username,
-        password: hash
-      })
-      user.save()                    
-        .then(() => response.status(201).json({ message: 'Utilisateur crée!' }))
-        .catch(error => response.status(400).json({ error }))
+//Création d'un user
+exports.signup = (request, response) => {
+  // Valider les paramètres de la requète
+  let email = request.body.email;
+  let username = request.body.username;
+  let password = request.body.password;
+  if (email === null || username === null || password === null) {
+    response.status(400).json({ error: 'il manque un paramètre' })
+  }
+  //Vérification des saisies user
+  let emailOk = verifInput.validEmail(email);
+  console.log("email = " + emailOk)
+  let passwordOK = verifInput.validPassword(password);
+  console.log("password = " + passwordOK)
+  let usernameOk = verifInput.validUsername(username);
+  console.log("username = " + usernameOk)
+  if (emailOk == true && passwordOK == true && usernameOk == true) {
+    //Vérification si user n'existe pas déjà = Vérifier l'email
+    models.user.findOne({
+      attributes: ['email'],
+      where: { email: email }
     })
-    .catch(error => response.status(500).json({ error }))
-}
-exports.login = (request, response, next) => {
-  User.findOne({ email: request.body.email })//recherche l'email dans la base de donnée
     .then(user => {
       if (!user) {
-        return response.status(401).json({ error: 'Utilisateur non trouvé !' });
-      }
-      bcrypt.compare(request.body.password, user.password) // on compare le password entrez et celui dans la base de donnée 
-        .then(valid => {
-          if (!valid) {
-            return response.status(401).json({ error: 'Mot de passe incorrect !' });
-          }
-          response.status(200).json({
-            userId: user._id,
-            token: jwt.sign(  // ".sign" permet d'encoder un nouveau token
-              { userId: user._id, },
-                process.env.TOKEN, // encodage
-              { expiresIn: '24h' }
-            )
-          });
+        bcrypt.hash(password, 10, function (error, bcryptPassword) { //hashage *10 du password
+          // Création de l'user
+          const newUser = models.user.create({
+            email: email,
+            username: username,
+            password: bcryptPassword,
+            is_Admin: false
+          })
+          .then(newUser => { response.status(201).json({ 'id': newUser.id }) })
+          .catch(error => {
+            response.status(500).json({ error })
+          })
         })
-        .catch(error => response.status(500).json({ error }));
+      }else {
+        response.status(409).json({ error: 'Cette utilisateur existe déjà ' })
+      }
     })
-    .catch(error => response.status(500).json({ error }));
+    .catch(error => { response.status(500).json({ error }) })
+  }else {
+    console.log('pas cette fois')
+  }
+};
+//Login d'un user
+exports.login = (request, response) => {
+  //Récupération et validation des paramètres
+  let email = request.body.email;
+  let password = request.body.password;
+  if (email == null || password == null) {
+    response.status(400).json({ error: 'Il manque un paramètre' })
+  }
+  //Vérification si user existe
+  models.user.findOne({
+    where: { email: email }
+  })
+  .then(user => {
+    if (user) {
+      bcrypt.compare(password, user.password, (resComparePassword) => {
+        if (resComparePassword) {
+          response.status(200).json({
+            userId: user.id,
+            token: jwtUtiles.generateToken(user),
+            isAdmin: user.is_admin
+          })
+        }else {
+          response.status(403).json({ error: 'invalid password' });
+        };
+      })
+    }else {
+      response.status(404).json({ 'erreur': 'Cet utilisateur n\'existe pas' })
+    }
+  })
+  .catch(error => { response.status(500).json({ error }) })
 };

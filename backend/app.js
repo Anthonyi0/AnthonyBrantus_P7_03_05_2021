@@ -9,6 +9,12 @@ const helmet = require('helmet')//aide à sécuriser les appli Express
 require('dotenv').config()//Cache les infos sensible dans le dossier ".env"
 
 const sequelize = new Sequelize(process.env.DATABASE_URL);
+try {
+  sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 app.use(express.json());
 
@@ -18,6 +24,7 @@ app.use((request, response, next) => {
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); //comment
   next();
 });
+
 
 app.use(helmet())//securisation HTTP headers
 app.use(bodyParser.json());
