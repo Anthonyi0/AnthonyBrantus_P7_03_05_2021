@@ -6,22 +6,22 @@ Vue.use(VueRouter)
 const routes = [
  {
   path: '/',
-  name: 'Wall',
+  name: 'wall',
   component: () => import('../views/wall.vue')
 },
   {
     path: '/signup',
-    name: 'Signup',
+    name: 'signup',
     component: () => import('../views/signup.vue')
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import('../views/login.vue')
   },
   {
     path: '/user',
-    name: 'User',
+    name: 'user',
     component: () => import('../views/user.vue')
   }
 ]
