@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');//Rend les données du corps de la requête exploitable
 const path = require('path');
 const userRoutes = require('./routes/user');
-//const messageRoutes = require('./routes/message')
+const messageRoutes = require('./routes/message')
 const helmet = require('helmet')//aide à sécuriser les appli Express
 require('dotenv').config()//Cache les infos sensible dans le dossier ".env"
 
@@ -35,6 +35,6 @@ app.use('/images',express.static(path.join(__dirname,'images')));//middleware im
 
 //Routes
 app.use('/api/user', userRoutes);
-//app.use('/api/message', messageRoutes);
+app.use('/api/message', messageRoutes);
 
 module.exports = app;

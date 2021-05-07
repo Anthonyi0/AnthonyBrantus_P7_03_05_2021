@@ -29,12 +29,13 @@ exports.signup = (request, response) => {
     })
     .then(user => {
       if (!user) {
-        bcrypt.hash(password, 10, function (error, bcryptPassword) { //hashage *10 du password
+        bcrypt.hash(request.body.password, 10) // hashage *10 du password
+        .then(hash => {  
           // Création de l'user
           const newUser = models.user.create({
             email: email,
             username: username,
-            password: bcryptPassword,
+            password: hash,
             is_Admin: false
           })
           .then(newUser => { response.status(201).json({ 'id': newUser.id }) })
@@ -65,17 +66,17 @@ exports.login = (request, response) => {
   })
   .then(user => {
     if (user) {
-      bcrypt.compare(password, user.password, (errorComparePassword,responseComparePassword) => {
-        if (responseComparePassword) {
+      bcrypt.compare(request.body.password, user.password) // on compare le password entrez et celui dans la base de donnée 
+        .then(valid => {
+          if (!valid) {
+            return response.status(401).json({ error: 'Mot de passe incorrect !' });
+          }
           response.status(200).json({
             userId: user.id,
             token: jwtUtiles.generateToken(user),
             is_admin: user.is_admin
           })
-        }else {
-          response.status(403).json({ error: 'invalid password' });
-        };
-      })
+        })
     }else {
       response.status(404).json({ 'erreur': "Cet utilisateur n'existe pas" })
     }
@@ -107,9 +108,9 @@ exports.changePassword = (request, response) => {
     })
     .then(user => {
       console.log('user trouvé', user)
-      bcrypt.compare(newPassword, user.password, (errComparePassword, resComparePassword) => {
-        //bcrypt renvoit resComparePassword si les mdp sont identiques donc aucun changement
-        if (resComparePassword) {
+      bcrypt.compare(newPassword, user.password, (errorComparePassword, responseComparePassword) => {
+        //bcrypt renvoit responseComparePassword si les password sont identiques donc aucun changement
+        if (responseComparePassword) {
           response.status(406).json({ error: 'Vous avez entré le même mot de passe' })
         }else {
           bcrypt.hash(newPassword, 10, function (error, bcryptNewPassword) {
@@ -139,12 +140,12 @@ exports.deleteProfile = (request, response) => {
     })
     .then(user => {
       if (user != null) {
-        //Delete de tous les posts de l'user 
-        models.Post.destroy({
-          where: { userId: user.id }
+        //Delete de tous les messages de l'user 
+        models.message.destroy({
+          where: { id: user.id }
         })
         .then(() => {
-          console.log('Tous les posts de cet user ont été supprimé');
+          console.log('Tous les messages de cet user ont été supprimé');
           //Suppression de l'utilisateur
           models.user.destroy({
             where: { id: user.id }
