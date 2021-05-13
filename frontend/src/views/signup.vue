@@ -1,21 +1,40 @@
 <!--Création de la page HTML signup-->
 <template>
-<div class="infoInscription">
-                <h1>Inscription</h1>
-                <div>
-                    <label for="email">Email:</label>
-                    <input id="email" type="email" v-model="dataSignup.email">
-                </div>
-                <div>
-                    <label for="username">Username:</label>
-                    <input id="username" type="text" v-model="dataSignup.username">
-                </div>
-                <div>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" v-model="dataSignup.password">
-                </div>
-                <button @click.prevent="sendSignup" type="submit" id="validation"> S'inscire</button>
-            </div>
+  <main class="main main--connect">
+    <form class="w-75 align-items-center form-block d-flex m-auto shadow rounded">
+      <div
+        class="form-block--left d-flex flex-column justify-content-center block-demi-container p-3 text-right align-self-stretch"
+      >
+        <img class="logo align-self-end" src="../assets/icon.svg" alt="Logo Groupomania" />
+        <p>
+          <small>
+            Vous avez déjà un compte,
+            <router-link class="redirection-singup" to="/login">connecter-vous</router-link>
+          </small>
+        </p>
+      </div>
+      <div class="block-demi-container p-3">
+        <div class="form-group">
+          <label for="inputEmail">Email Groupomania</label>
+          <input type="email" class="form-control" id="inputEmail" v-model="dataSignup.email" />
+        </div>
+        <div class="form-group">
+          <label for="inputUsername">Username</label>
+          <input type="text" class="form-control" id="inputUsername" v-model="dataSignup.username" />
+        </div>
+        <div class="form-group">
+          <label for="inputPassword">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="inputPassword"
+            v-model="dataSignup.password"
+          />
+        </div>
+        <button @click.prevent="sendSignup" type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </main>
 </template>
 <!--Scrpit à utiliser pour la page signup-->
 <script>
@@ -41,10 +60,19 @@ export default {
         sendSignup(){//fonction qu'on va utiliser
             //vérification du password avec des conditions
             const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/
+            if (this.dataSignup.password === null){
+                alert("Pour un password valide : Une majuscule Une minuscule Un caractère spéciaux et Plus de 8 carractères")
+            }
             //vérification de l'email avec des conditions
             const regexEmail = /^[a-z0-9!#$ %& '*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&' * +/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/g;
+            if(this.dataSignup.email === null){
+                alert("merci de mettre un email valide")
+            }
             //vérification de l'username avec des conditions
             const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
+            if(this.dataSignup.username === null){
+                alert('Merci de mettre un username')
+            }
             if ( //si aucun n'est null
                 (this.dataSignup.email !== null || 
                 this.dataSignup.username !== null ||
