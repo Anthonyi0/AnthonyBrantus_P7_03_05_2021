@@ -28,14 +28,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getUserInfos(context) {
-      axios // utilisation axios
-        .get("http://localhost:3000/api/user/me", { //ont cherche l'adresse avec get
+    getUserInfos(context){
+      axios
+        .get("http://localhost:3000/api/user/me", { 
           headers: { 
             Authorization: "Bearer " + localStorage.getItem("token")//ont veux un header avec authorization
           }
         })
-        .get("http://localhost:3000/api/message",this.$store.state.headerParams) //ont cherche l'adresse avec get et les headerParms
         .then(response => {
           console.log('réponse API',response);
           context.commit('saveUserInfos',[response.data.username, response.data.id, response.data.email, response.data.is_admin])

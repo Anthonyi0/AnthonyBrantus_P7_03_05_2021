@@ -60,18 +60,18 @@ export default {
         sendSignup(){//fonction qu'on va utiliser
             //vérification du password avec des conditions
             const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/
-            if (this.dataSignup.password === null){
+            if (regexPassword.test(this.dataSignup.password) === false){
                 alert("Pour un password valide : Une majuscule Une minuscule Un caractère spéciaux et Plus de 8 carractères")
             }
             //vérification de l'email avec des conditions
-            const regexEmail = /^[a-z0-9!#$ %& '*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&' * +/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/g;
-            if(this.dataSignup.email === null){
+            const regexEmail = /^[a-z0-9!#$ %& '*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&' * +/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+            if(regexEmail.test(this.dataSignup.email) === false){
                 alert("merci de mettre un email valide")
             }
             //vérification de l'username avec des conditions
-            const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
-            if(this.dataSignup.username === null){
-                alert('Merci de mettre un username')
+            const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{5,29}$/;
+            if(usernameRegex.test(this.dataSignup.username) === false){
+                alert('Merci de mettre un username valide (Entre 5 et 29 caractères et sans caractère spéciaux)')
             }
             if ( //si aucun n'est null
                 (this.dataSignup.email !== null || 
@@ -87,6 +87,7 @@ export default {
                     this.dataSignup.email = null;
                     this.dataSignup.username = null;
                     this.dataSignup.password = null 
+                    alert('Inscription réussit')
                 })
                 .catch(error => console.log(error))//ont catch en cas de problème
             }else{
@@ -97,88 +98,7 @@ export default {
 }
 </script>
 <style lang='css'>
-button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    width: 180px;
-    margin: auto 0;
-    border-radius: 50px 50px;
-    font-size: 1.2em;
-    color: white;
-    font-weight: bold;
-    background-image: linear-gradient(rgb(255 43 90 / 90%),rgb(62 43 84 / 90%));
-    box-shadow: 0 6px 8px -7px black;
-    border: none;
-}
-#inscription{
-    margin-top: 1rem;
-}
-button:hover,button:active{
-	box-shadow: 0 8px 12px -7px black;
-	transition: 0.5s;
-}
-button:focus{
-	outline: 0;
-}
-section{
-    padding-top: 2rem;
-}
-.infoConnection,.infoInscription{
-    height: 500px;
-    max-width: 70%;
-    margin: auto;
-    padding: 3rem 0 0 0;
-}
-h1{
-    font-size: 2rem;
-    text-align: center;
-}
-label{
-    display: block;
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-top: 1rem;
-    text-align: start;
-}
-input{
-    width: 75%;
-    height: 20px;
-    margin: 1rem 0;
-    border: 1px solid black;
-    border-radius: 0.25rem;
-    font-size: 1.2rem;
-}
-input:focus{
-    color: #495057;
-    background-color: #fff;
-    border: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%)
-}
-#validation{
-    margin: 3rem auto;
-    height: 40px;
-    width: 180px;
-}
-@media screen and (max-width: 900px){
-    button{
-        height: 25px;
-        width: 100px;
-        font-size: 1rem;
-    }  
-}
-@media screen and (max-width: 800px){
-    img{
-        max-width: 20rem;
-        max-height: 20rem;
-    }
-}
-@media screen and (max-width: 500px){
-    img{
-        max-width: 10rem;
-        max-height: 10rem;
-    }
+main{
+    margin-top: 5rem;
 }
 </style>

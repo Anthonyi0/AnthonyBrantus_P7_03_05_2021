@@ -15,8 +15,8 @@
       </div>
       <div class="block-demi-container p-3">
         <div class="form-group">
-          <label for="inputUsername">Username</label>
-          <input type="text" class="form-control" id="inputUsername" v-model="dataLogin.username" />
+          <label for="inputEmail">Email</label>
+          <input type="text" class="form-control" id="inputEmail" v-model="dataLogin.email" />
         </div>
         <div class="form-group">
           <label for="inputPassword">Password</label>
@@ -27,7 +27,7 @@
             v-model="dataLogin.password"
           />
         </div>
-        <button @click.prevent="logIn" type="submit" class="btn btn-primary">Submit</button>
+        <button @click.prevent="login" type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </main>
@@ -62,7 +62,7 @@ export default {
                 .then(response => { //promesse de réponse
                     localStorage.setItem('token',response.data.token)//ont ajoute le token dans le localStorage
                     location.replace(location.origin) //ont remplace la location d'origin
-                }) 
+                })
                 .catch(error => console.log(error))//ont catch en cas d'erreur
             }else{
                 window.alert("Merci de remplir tout les champs")
@@ -71,5 +71,8 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang='css'>
+main{
+    margin-top: 5rem;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="card mb-4 w-75 mx-auto">
     <div class="card-header d-flex justify-content-between">
-      <div>Message by <em class="text-secondary">{{message.User.username}}</em> le <em class="text-secondary">{{message.createdAt.split(' ')[0]}}</em> à <em class="text-secondary">{{message.createdAt.split(' ')[1]}}</em></div>
-      <div class="dropdown" v-if="user.isAdmin==true || user.username == message.User.username">
+      <div>Message by <em class="text-secondary">{{message.user.username}}</em> le <em class="text-secondary">{{message.createdAt.split(' ')[0]}}</em> à <em class="text-secondary">{{message.createdAt.split(' ')[1]}}</em></div>
+      <div class="dropdown" v-if="user.is_admin==true || user.username == message.user.username">
         <svg
           class="bi bi-three-dots dropdown-toggle"
           id="dropdownMenuMessage"

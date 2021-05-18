@@ -4,7 +4,7 @@
       <h3>Créer un message</h3>
       <form enctype="multipart/form-data" action="/create" method="message">
         <div class="input-group mb-3">
-          <label for="input_text">Racontez nous une incroyable histoire:</label>
+          <label for="input_text">Racontez nous votre histoire:</label>
           <br />
           <input v-model="contentMessage.content" class="input-text" id="input_text" type="text" />
         </div>
@@ -53,18 +53,17 @@ export default {
   methods: {
     createMessage() { //fonction creation de message
       console.log(this.contentMessage); // log du contenue du message 
-      const FormData = new FormData(); //Création du nouveau formdata
-      FormData.append("inputFile", this.contentMessage.messageImage); //image
-      FormData.append("content", this.contentMessage.content); //contenu 
-      console.log("test récup", FormData.get("inputFile")); //ont test le inputFile
-      console.log("test récup", FormData.get("content")); //ont test le content 
-      if (FormData.get("inputFile") == "null" && FormData.get("content") == "null") { //si tout est null rien à publier 
+      const formData = new FormData(); //Création du nouveau formdata
+      formData.append("inputFile", this.contentMessage.messageImage); //image
+      formData.append("content", this.contentMessage.content); //contenu 
+      console.log("test récup image :", formData.get("inputFile")); //ont test le inputFile
+      console.log("test récup message :", formData.get("content")); //ont test le content 
+      if (formData.get("inputFile") == "null" && formData.get("content") == "null") { //si tout est null rien à publier 
         let msgReturn = document.getElementById('msgReturnAPI')
         msgReturn.classList.add('text-danger')
         this.msgError = "Rien à publier";
       } else {
-        axios //utilisation axios 
-          .post("http://localhost:3000/api/message/create", FormData, { //ont utilise post avec l'adress + la nouvelle formData 
+        axios.post("http://localhost:3000/api/message/create", formData, { //ont utilise post avec l'adress + la nouvelle formData 
             headers: { //utilisation du header pour l'autorisation 
               Authorization: "Bearer " + window.localStorage.getItem("token")
             }

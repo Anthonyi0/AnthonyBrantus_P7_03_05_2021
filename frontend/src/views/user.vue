@@ -134,6 +134,7 @@ export default {
         .then(() => { //on attend un promise 
           localStorage.clear(); //ont clear le localstorage 
           location.replace(location.origin+'/#/signup'); //et on envoie l'utilisateur à la création du compte 
+          document.location.reload();
         })
         .catch(error => console.log(error)); //ont catche en cas d'erreur
     },
