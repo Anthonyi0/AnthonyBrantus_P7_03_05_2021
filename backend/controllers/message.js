@@ -9,26 +9,26 @@ exports.create = (request, response) => {
     let attachmentURL
     //identifier qui créé le message
     let id = jwtUtiles.getUserId(request.headers.authorization)
-    models.user.findOne({
+    models.user.findOne({//Models user pour en chercher un grace à l'id
         attributes: ['id', 'email', 'username'],
         where: { id: id }
     })
-    .then(user => { //promise 
-        if (user !== null) {
+    .then(user => { //promise user 
+        if (user !== null) {//si l'user est différent de null
             //Récupération du corps du message
-            let content = request.body.content;
-            if (request.file != undefined) {
+            let content = request.body.content; //le contenue = la rêquete de l'utilisateur
+            if (request.file != undefined) { //si l'image est renseigner :
                 attachmentURL = `${request.protocol}://${request.get('host')}/images/${request.file.filename}`;
-            }else {
+            }else { //sinon envoyer null
                 attachmentURL == null
             };
-            if ((content == 'null' && attachmentURL == null)) {
-                response.status(400).json({ error: 'Rien à publier' })
-            } else {
+            if ((content == 'null' && attachmentURL == null)) { //si ont à ni l'image ni le contenue alors
+                response.status(400).json({ error: 'Rien à publier' }) //rien à publier
+            } else { //si ont à du contenue ou une image alors : 
                 models.message.create({ //permet de crée le message grâce au model
                     content: content,
                     attachement: attachmentURL,
-                    UserId: user.id
+                    user_id: user.id
                 })
                 .then((newMessage) => { //promise de newmessage
                     response.status(201).json(newMessage)
@@ -37,7 +37,7 @@ exports.create = (request, response) => {
                     response.status(500).json(error)
                 })
             };
-        } else {
+        } else {//si ont essaye de poster sans être enregister error 
             response.status(400).json(error);
         }
     })
@@ -47,14 +47,14 @@ exports.create = (request, response) => {
 exports.listMessage = (request, response) => {
     models.message.findAll({ //cherche les message grâce au model 
         include: [{
-            model: models.user,
-            attributes: ['username']
+            model: models.message,
+            attributes: ['message']
         }],
         order: [['createdAt', 'DESC']]
     })
-    .then(message => { //promise réponse 
-        if (message.length > null) { //si la longeur du message est plus grand que null 
-            response.status(200).json(message) //Status 200 car tout est okais 
+    .then(messages => { //promise réponse 
+        if (messages.length > null) { //si la longeur du message est plus grand que null 
+            response.status(200).json(messages) //Status 200 car tout est okais 
         } else {
             response.status(404).json({ error: 'Pas de message à afficher' }) // aucun message à montrer donc error 
         }
@@ -72,7 +72,7 @@ exports.delete = (request, response) => {
         where: { id: id }
     })
     .then(user => { //promise du user
-        //Vérification que le demandeur soit l'admin et soit le Poster (vérif aussi sur le front)
+        //Vérification que le demandeur soit l'admin ou soit le Poster 
         if (user && (user.is_admin == true || user.id == userOrder)) { 
             console.log('Suppression du message id :', request.body.messageId); //suppression du message avec l'id : 
             models.message.findOne({ //recherche le message grâce au models 
@@ -98,7 +98,7 @@ exports.delete = (request, response) => {
                 }
             })
             .catch(error => response.status(500).json(error)) //catch en cas d'erreur 
-        } else { response.status(403).json('Utilisateur non autorisé à supprimer ce message') } // na pas le droit de supprimé 
+        } else { response.status(403).json('Utilisateur non autorisé à supprimer ce message') } // n'a pas le droit de supprimé 
     })
     .catch(error => response.status(500).json(error)); //catch en cas d'erreur 
 };
