@@ -122,8 +122,8 @@ export default {
             this.retourAPI = response.data.confirmation;
             setTimeout(() => {
               this.retourAPI = "";
-              //window.location.reload();
-            }, 2000);
+              window.location.reload();
+            },);
           })
           .catch(error => { //catch en cas d'erreur 
             console.log("admin", error);
@@ -147,8 +147,8 @@ export default {
             this.retourAPI = response.data.confirmation;
             setTimeout(() => {
               this.retourAPI = "";
-              // window.location.reload();
-            }, 2000);
+              window.location.reload();
+            },);
           })
           .catch(error => { //catch en cas d'erreur 
             console.log("admin", error);
