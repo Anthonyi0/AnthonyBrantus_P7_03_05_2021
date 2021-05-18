@@ -46,10 +46,7 @@ exports.create = (request, response) => {
 //Afficher les messages sur le mur
 exports.listMessage = (request, response) => {
     models.message.findAll({ //cherche les message grâce au model 
-        include: [{
-            model: models.message,
-            attributes: ['message']
-        }],
+        include: models.user,
         order: [['createdAt', 'DESC']]
     })
     .then(messages => { //promise réponse 
@@ -109,7 +106,7 @@ exports.update = (request, response) => {
     //identification du demandeur
     let id = jwtUtiles.getUserId(request.headers.authorization); // besoin d'authorization 
     models.user.findOne({ //grâce au model user on cherche l'user 
-        attributes: ['id', 'email', 'username', 'isAdmin'],
+        attributes: ['id', 'email', 'username', 'is_admin'],
         where: { id: id }
     })
     .then(user => { //promise user 
@@ -122,7 +119,7 @@ exports.update = (request, response) => {
             },
                 { where: { id: request.body.messageId } }
             )
-            .then(() => response.end()) //promise si réussis 
+            .then(() => response.end()) //promise si réussis
             .catch(error => response.status(500).json(error)) //catch si erreur 
         }else {
             response.status(401).json({ error: 'Utilisateur non autorisé à modifier ce message' }) //interdiction car pas d'autorisation 

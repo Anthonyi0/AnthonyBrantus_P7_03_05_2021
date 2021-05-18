@@ -36,7 +36,7 @@ exports.signup = (request, response) => {
             email: email,
             username: username,
             password: hash,
-            is_Admin: false
+            is_admin: false
           })
           .then(newUser => { response.status(201).json({ 'id': newUser.id }) })
           .catch(error => {

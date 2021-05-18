@@ -9,11 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-    }
+      this.belongsTo(models.user)    }
   };
   message.init({
-    user_id: DataTypes.INTEGER,
+    userId: {
+      field : 'user_id',
+      type : DataTypes.INTEGER,
+    },
     conversation_id: DataTypes.INTEGER,
     content: DataTypes.STRING,
     attachment: DataTypes.STRING,
