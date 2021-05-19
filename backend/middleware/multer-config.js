@@ -24,4 +24,4 @@ const storage = multer.diskStorage({
 });
 
 // on exporte multer en lui passant notre constante storage
-module.exports = multer({ storage: storage }).single('image');//".single" indique que l'on va gérer uniquement le téléchargement d'image
+module.exports = multer({ storage: storage }).single('inputFile');//".single" indique que l'on va gérer uniquement le téléchargement d'image

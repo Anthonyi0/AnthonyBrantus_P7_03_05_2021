@@ -27,8 +27,8 @@ exports.create = (request, response) => {
             } else { //si ont à du contenue ou une image alors : 
                 models.message.create({ //permet de crée le message grâce au model
                     content: content,
-                    attachement: attachmentURL,
-                    user_id: user.id
+                    attachment: attachmentURL,
+                    userId: user.id
                 })
                 .then((newMessage) => { //promise de newmessage
                     response.status(201).json(newMessage)
@@ -76,8 +76,8 @@ exports.delete = (request, response) => {
                  where: { id: request.body.messageId }
             })
             .then((messageFind) => { //promise messageFInd
-                if (messageFind.attachement) { //si le message trouver à une image 
-                    const filename = messageFind.attachement.split('/images/')[1]; //on prend l'image ont split le /images/
+                if (messageFind.attachment) { //si le message trouver à une image 
+                    const filename = messageFind.attachment.split('/images/')[1]; //on prend l'image ont split le /images/
                     console.log("test", filename); //on test le filename
                     fs.unlink(`images/${filename}`, () => { //grâce au plugin fs on cherche 
                         models.message.destroy({ //grâce au models on destroy 
@@ -115,7 +115,7 @@ exports.update = (request, response) => {
             console.log('Modif ok pour le message :', request.body.messageId); //vérif de l'id message 
             models.message.update({ //grâce au model on update le message 
                     content: request.body.newText, //contenue
-                    attachement: request.body.newImg //et image
+                    attachment: request.body.newImg //et image
             },
                 { where: { id: request.body.messageId } }
             )
