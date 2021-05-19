@@ -39,8 +39,8 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="card-img-top w-75 mx-auto" v-if="message.attachement">
-        <img :src="message.attachement" alt="..." class="w-100" />
+      <div class="card-img-top w-75 mx-auto" v-if="message.attachment">
+        <img :src="message.attachment" alt="..." class="w-10" />
       </div>
       <div class="card-text" v-if="message.content!=='null'">
         <p class="mb-0">{{message.content}}</p>

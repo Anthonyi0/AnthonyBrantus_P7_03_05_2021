@@ -28,7 +28,7 @@ export default {
       message: {
         id: "",
         content: "",
-        image: ""
+        attachment: ""
       },
       allMessages: [] //tout les message dans un tableau 
     };

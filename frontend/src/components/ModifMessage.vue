@@ -23,9 +23,9 @@
               <br />
               <textarea class="input-text" id="inputNewText" type="text" :value="message.content"></textarea>
             </div>
-            <div class="input-group mb-3" v-if="message.attachement">
+            <div class="input-group mb-3" v-if="message.attachment">
               <br />
-              <img class="img-thumbnail" :src="message.attachement" />
+              <img class="img-thumbnail" :src="message.attachment" />
               <button type="button" class="btn btn-danger mx-auto mt-1" @click='deleteImgAction'>Delete image</button>
             </div>
 

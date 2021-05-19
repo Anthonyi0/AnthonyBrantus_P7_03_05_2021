@@ -86,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" @click="changePassword">Save changes</button>
+                  <button type="button" class="btn btn-primary" @click="changepassword">Save changes</button>
                 </div>
                 <p id="retour-api" class="text-center">{{retourAPI}}</p>
               </div>
@@ -163,7 +163,7 @@ export default {
             setTimeout(() => {
               this.retourAPI = "";
               window.location.reload();
-            }, 2000);
+            },);
           })
           .catch(error => { //catch en cas d'erreur 
             console.log("admin", error);
