@@ -142,7 +142,7 @@ exports.deleteProfile = (request, response) => {
       if (user != null) {
         //Delete de tous les messages de l'user 
         models.message.destroy({
-          where: { id: user.id }
+          where: { user_id: user.id }
         })
         .then(() => {
           console.log('Tous les messages de cet user ont été supprimé');
