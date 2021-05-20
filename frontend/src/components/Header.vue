@@ -21,10 +21,10 @@
           <router-link class="nav-link" to="/">Home</router-link>
         </li>
         <li class="nav-item" v-if="user.token==null">
-          <router-link class="nav-link" to="/signup">Sign Up</router-link>
+          <router-link class="nav-link" to="/signup">SignUp</router-link>
         </li>
         <li class="nav-item" v-if="user.token==null">
-          <router-link class="nav-link" to="/login">Log In</router-link>
+          <router-link class="nav-link" to="/login">LogIn</router-link>
         </li>
         <li class="nav-item" v-if="user.token!==null">
           <router-link class="nav-link" to="/user">

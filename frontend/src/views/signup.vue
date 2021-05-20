@@ -88,6 +88,7 @@ export default {
                     this.dataSignup.username = null;
                     this.dataSignup.password = null 
                     alert('Inscription réussit')
+                    location.replace(location.origin+'/#/login')
                 })
                 .catch(error => console.log(error))//ont catch en cas de problème
             }else{

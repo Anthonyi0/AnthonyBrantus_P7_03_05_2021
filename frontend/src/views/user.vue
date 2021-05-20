@@ -131,7 +131,8 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token") //ont à besoin de l'autorisation token dans le localstorage 
           }
         })
-        .then(() => { //on attend un promise 
+        .then(() => { //on attend un promise
+          alert('Votre compte et vos messages ont bien été supprimé') 
           localStorage.clear(); //ont clear le localstorage 
           location.replace(location.origin+'/#/signup'); //et on envoie l'utilisateur à la création du compte 
           document.location.reload();
@@ -162,6 +163,7 @@ export default {
             this.retourAPI = response.data.confirmation;
             setTimeout(() => {
               this.retourAPI = "";
+              alert('Votre mots de passe à bien été changez')
               window.location.reload();
             },);
           })
