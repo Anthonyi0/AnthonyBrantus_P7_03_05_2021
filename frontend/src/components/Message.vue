@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-4 w-75 mx-auto">
+  <div class="card mb-4 w-75 mx-auto mt-2">
     <div class="card-header d-flex justify-content-between">
       <div>Message by <em class="text-secondary">{{message.user.username}}</em> le <em class="text-secondary">{{this.dateFormat(message.createdAt)}}</em> à <em class="text-secondary">{{this.dateHours(message.createdAt)}}</em></div>
       <div class="dropdown" v-if="user.is_admin==true || user.username == message.user.username">

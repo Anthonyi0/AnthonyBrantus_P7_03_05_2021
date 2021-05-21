@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="forum">
     <h4>{{ forum.name }}</h4>
     <router-link class="btn btn-primary btn-sm" :to="{ name: 'conversation_create', params: { id: forum.id }}" >
       Creer une conversation
@@ -16,7 +16,6 @@
   </div>
 </template>
 
-
 <script>
   export default {
     "name": "Forum",
@@ -32,3 +31,11 @@
     }
   }
 </script>
+<style>
+.forum{
+    flex-wrap: wrap;
+    display: inline-block;
+    margin: 0 10px 75px 10px;
+  
+}
+</style>

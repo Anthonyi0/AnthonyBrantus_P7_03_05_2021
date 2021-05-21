@@ -81,6 +81,9 @@ export default {
 </script>
 
 <style lang="scss">
+h1{
+  font-size: 1rem;
+}
 .wall {
   background-color: white;
   min-height: 100%;
@@ -115,4 +118,9 @@ export default {
     color: grey;
   }
 }
+@media screen and (max-width: 575px){
+  .navbar-brand{
+    max-width: 300px;
+  }
+} 
 </style>
