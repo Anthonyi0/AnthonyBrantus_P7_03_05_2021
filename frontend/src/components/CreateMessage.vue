@@ -47,15 +47,23 @@ export default {
       msgError: ""
     };
   },
+  props: {
+    conversation: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState(["user", "editOption"]) // utilisation du state user et editOption
   },
   methods: {
     createMessage() { //fonction creation de message
-      console.log(this.contentMessage); // log du contenue du message 
+
       const formData = new FormData(); //Création du nouveau formdata
       formData.append("inputFile", this.contentMessage.messageImage); //image
       formData.append("content", this.contentMessage.content); //contenu 
+      formData.append("conversation", this.conversation.id); //contenu
+
       console.log("test récup image :", formData.get("inputFile")); //ont test le inputFile
       console.log("test récup message :", formData.get("content")); //ont test le content 
       if (formData.get("inputFile") == "null" && formData.get("content") == "null") { //si tout est null rien à publier 
