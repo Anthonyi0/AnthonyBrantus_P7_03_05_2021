@@ -28,6 +28,7 @@ exports.create = (request, response) => {
                 models.message.create({ //permet de crée le message grâce au model
                     content: content,
                     attachment: attachmentURL,
+                    conversationId: request.body.conversation,
                     userId: user.id
                 })
                 .then((newMessage) => { //promise de newmessage
@@ -50,7 +51,7 @@ exports.listMessage = (request, response) => {
         order: [['createdAt', 'DESC']]
     })
     .then(messages => { //promise réponse 
-        if (messages.length > null) { //si la longeur du message est plus grand que null 
+        if (messages.length > 0) { //si la longeur du message est plus grand que null
             response.status(200).json(messages) //Status 200 car tout est okais 
         } else {
             response.status(404).json({ error: 'Pas de message à afficher' }) // aucun message à montrer donc error 

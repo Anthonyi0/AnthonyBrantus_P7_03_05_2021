@@ -12,4 +12,4 @@ router.delete("/delete", messageControle.delete)//adresse + autorisation + contr
 router.get("/", auth, messageControle.listMessage);//adresse + autorisation + controleur listMessage 
 
 //exporte
-module.exports = router; 
+module.exports = router;  

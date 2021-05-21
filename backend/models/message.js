@@ -9,14 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.user)    }
+      this.belongsTo(models.user)
+    }
   };
   message.init({
     userId: {
       field : 'user_id',
       type : DataTypes.INTEGER,
     },
-    conversation_id: DataTypes.INTEGER,
+    conversationId: {
+      field: 'conversation_id',
+      type: DataTypes.INTEGER
+    },
     content: DataTypes.STRING,
     attachment: DataTypes.STRING,
     likes: DataTypes.INTEGER
