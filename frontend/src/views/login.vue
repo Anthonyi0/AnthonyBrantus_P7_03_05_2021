@@ -75,4 +75,9 @@ export default {
 main{
     margin-top: 5rem;
 }
+@media screen and (max-width: 575px){
+  .navbar-brand{
+    max-width: 300px;
+  }
+} 
 </style>
